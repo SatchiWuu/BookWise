@@ -4,17 +4,24 @@
         aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
     </button>
-
     <div class="collapse navbar-collapse" id="navbarSupportedContent">
         <ul class="navbar-nav mr-auto">
             <li class="nav-item dropdown">
                 <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button"
                     data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                    <i class="fas fa-user-circle"></i>
                     @guest
+                        <i class="fas fa-user-circle"></i>
                         Guest
                     @else
-                        {{ Auth::user()->name }}
+                        @if (Auth::user()->profile_image)
+                            <img src="{{ asset(Auth::user()->profile_image) }}"
+                                style="width: 30px; height: 30px; border-radius: 50%;">
+                            {{ Auth::user()->name }}
+                        @else
+                            <i class="fas fa-user-circle"></i>
+                            {{ Auth::user()->name }}
+                        @endif
+
                     @endguest
                 </a>
                 <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
@@ -79,7 +86,8 @@
                 <a class="nav-link" href="{{ route('viewCheckout') }}">
                     <i class="fa fa-book" aria-hidden="true" style="font-size:20px;color:#A4E9D5"></i>
                     <span class="text-color" style="color: #A4E9D5;">Checkout</span>
-                    <span class="badge badge-secondary">{{ Session::has('checkout') ? array_sum(array_column(Session::get('checkout'), 'quantity')) : '' }}</span>
+                    <span
+                        class="badge badge-secondary">{{ Session::has('checkout') ? array_sum(array_column(Session::get('checkout'), 'quantity')) : '' }}</span>
                 </a>
             </li>
             <li class="nav-item">
@@ -90,7 +98,8 @@
             </li>
         </ul>
         <form action="{{ route('books.search') }}" method="GET" class="form-inline my-2 my-lg-0">
-            <input class="form-control mr-sm-2" type="search" name="query" placeholder="Search" aria-label="Search">
+            <input class="form-control mr-sm-2" type="search" name="query" placeholder="Search"
+                aria-label="Search">
             <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
         </form>
     </div>
