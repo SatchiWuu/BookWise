@@ -9,6 +9,7 @@ use SebastianBergmann\CodeCoverage\Node\Directory;
 use SebastianBergmann\CodeCoverage\Node\File;
 use SebastianBergmann\Environment\Runtime;
 use Symfony\Component\Console\Output\OutputInterface;
+
 use function Termwind\render;
 use function Termwind\renderUsing;
 use function Termwind\terminal;
@@ -45,7 +46,7 @@ final class Coverage
             return true;
         }
 
-        if (static::usingXdebug()) {
+        if (self::usingXdebug()) {
             $mode = getenv('XDEBUG_MODE') ?: ini_get('xdebug.mode');
 
             return $mode && in_array('coverage', explode(',', $mode), true);
